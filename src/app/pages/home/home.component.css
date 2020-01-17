@@ -42,6 +42,14 @@ body {
   width: 200px;
 }
 
+.minutes {
+  position: fixed;
+  left: calc(50% - 100px);
+  top: calc(50% - 50px);
+  width: 200px;
+  text-align: center;
+}
+
 /* The circle */
 .sonar-emitter {
   cursor: pointer;

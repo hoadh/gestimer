@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +6,6 @@ import {Component, ElementRef, OnInit} from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  distance = 0;
   min = 0;
   isDragging = false;
   originPosition = {
@@ -18,17 +17,26 @@ export class HomeComponent implements OnInit {
     y: 0
   };
 
-  xDiff = 0;
-  yDiff = 0;
-
   draggingPosition = {
     x: 0,
     y: 0
   };
+  lastPosition = {
+    x: 0,
+    y: 0
+  };
 
-  constructor(private elRef: ElementRef) { }
+  constructor() { }
 
   ngOnInit() {
+  }
+
+  hideCursor() {
+    document.body.style.cursor = 'none';
+  }
+
+  showCursor() {
+    document.body.style.cursor = 'auto';
   }
 
   startDrag(event) {
@@ -37,32 +45,47 @@ export class HomeComponent implements OnInit {
       y: event.clientY,
     };
     this.sonarPosition = {
-      x: event.target.offsetLeft + event.target.offsetWidth,
-      y: event.target.offsetTop + event.target.offsetHeight
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2 - 45
     };
     console.log(event.target, this.sonarPosition);
-    this.xDiff = event.clientX - event.target.offsetLeft;
-    this.yDiff = event.clientY - event.target.offsetTop;
 
     console.log('start drag', this.originPosition);
     this.isDragging = true;
 
-    // const img = document.createElement('img');
-    // img.src = 'http://kryogenix.org/images/hackergotchi-simpler.png';
-    // event.dataTransfer.setDragImage(img, 50, 50);
+    const img = new Image();
+    img.src = '/assets/yellow.png';
+    event.dataTransfer.setDragImage(img, 1, 1);
   }
 
   doDrag(event) {
+    this.hideCursor();
     this.draggingPosition = {
       x: event.clientX,
       y: event.clientY,
     };
-    this.getMin();
-    console.log('dragging', this.distance);
+    const distance = this.getDistance(this.sonarPosition, this.draggingPosition);
+    this.getMin(distance);
+    console.log('doDrag()', this.min);
+    // console.log('dragging', this.distance);
+  }
+
+  @HostListener('mouseup', ['$event'])
+  mouseUp(event) {
+    this.lastPosition = {
+      x: event.clientX,
+      y: event.clientY,
+    };
+    const distance = this.getDistance(this.sonarPosition, this.lastPosition);
+    this.getMin(distance);
+    console.log('mouseUp()', this.min);
   }
 
   endDrag() {
-    this.getMin();
+    const distance = this.getDistance(this.sonarPosition, this.lastPosition);
+    this.getMin(distance);
+    console.log('endDrag()', this.min);
+    this.showCursor();
     this.isDragging = false;
   }
 
@@ -71,13 +94,8 @@ export class HomeComponent implements OnInit {
                                                 Math.pow(startPoint.y - endPoint.y, 2)  ));
   }
 
-  getCircleStyle() {
-    return `display:fixed;left:${this.draggingPosition.x}px;top:${this.draggingPosition.y}px;`;
-  }
-
-  getMin() {
-    this.distance = this.getDistance(this.sonarPosition, this.draggingPosition);
-    this.min = Math.round(this.distance / 10);
+  getMin(distance: number) {
+    this.min = Math.round(distance / 10);
   }
 
 }

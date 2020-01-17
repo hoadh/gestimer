@@ -13,6 +13,10 @@ export class HomeComponent implements OnInit {
     x: 0,
     y: 0
   };
+  sonarPosition = {
+    x: 0,
+    y: 0
+  };
 
   xDiff = 0;
   yDiff = 0;
@@ -32,7 +36,11 @@ export class HomeComponent implements OnInit {
       x: event.clientX,
       y: event.clientY,
     };
-
+    this.sonarPosition = {
+      x: event.target.offsetLeft + event.target.offsetWidth,
+      y: event.target.offsetTop + event.target.offsetHeight
+    };
+    console.log(event.target, this.sonarPosition);
     this.xDiff = event.clientX - event.target.offsetLeft;
     this.yDiff = event.clientY - event.target.offsetTop;
 
@@ -68,7 +76,7 @@ export class HomeComponent implements OnInit {
   }
 
   getMin() {
-    this.distance = this.getDistance(this.originPosition, this.draggingPosition);
+    this.distance = this.getDistance(this.sonarPosition, this.draggingPosition);
     this.min = Math.round(this.distance / 10);
   }
 

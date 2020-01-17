@@ -1,5 +1,3 @@
-
-
 /* Make it looks good on CodePen */
 html {
   background-color: #cef;
@@ -8,11 +6,40 @@ html, body, .sonar-wrapper {
   height: 100%;
 }
 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+#graph {
+  display: block;
+  margin: auto;
+  height: 100vh;
+  width: 100%;
+
+  /*background-color: #269;*/
+  /*background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;*/
+  /*background-position: -1px -1px, -1px -1px, 0 0px, 0 0;*/
+  /*background-image: linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px), linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);*/
+
+}
+
+.line {
+  stroke: HSL(45,100%,50%);
+  fill: green;
+  stroke-width: 5;
+  stroke-linecap: butt;
+}
+
 /* Prevent scrollbars to appear when waves go out of bound */
 .sonar-wrapper {
   z-index: 0;
   overflow: hidden;
   padding: 8rem 0;
+
+  position: fixed;
+  left: calc(50% - 100px) ;
+  top: calc(50% - 200px);
+  width: 200px;
 }
 
 /* The circle */

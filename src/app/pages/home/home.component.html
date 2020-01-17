@@ -3,10 +3,12 @@
     <div *ngIf="!isDragging" class="sonar-wave"></div>
   </div>
 </div>
-
-<span *ngIf="isDragging">Distance: {{distance}}</span>
-<br/>
-<span *ngIf="isDragging">Minutes: {{min}}</span>
-<svg *ngIf="isDragging" [style]="getCircleStyle()" height="100" width="100">
-  <circle cx="20" cy="20" r="20" fill="HSL(45,100%,50%)" />
+<svg id="graph">
+  <line *ngIf="isDragging" class="line" [attr.x1]="originPosition.x" [attr.y1]="originPosition.y" [attr.x2]="draggingPosition.x" [attr.y2]="draggingPosition.y"></line>
 </svg>
+<!--<span *ngIf="isDragging">Distance: {{distance}}</span>-->
+<!--<br/>-->
+<!--<span *ngIf="isDragging">Minutes: {{min}}</span>-->
+<!--<svg *ngIf="isDragging" height="100" width="100">-->
+<!--  <circle cx="20" cy="20" r="20" fill="HSL(45,100%,50%)" />-->
+<!--</svg>-->

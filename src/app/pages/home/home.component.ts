@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -48,37 +48,30 @@ export class HomeComponent implements OnInit {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2 - 45
     };
-    console.log(event.target, this.sonarPosition);
-
-    console.log('start drag', this.originPosition);
     this.isDragging = true;
 
     const img = new Image();
     img.src = '/assets/yellow.png';
-    event.dataTransfer.setDragImage(img, 1, 1);
+    event.dataTransfer.setDragImage(img, -5, -5);
   }
 
   doDrag(event) {
     this.hideCursor();
     this.draggingPosition = {
       x: event.clientX,
-      y: event.clientY,
+      y: event.clientY
     };
     const distance = this.getDistance(this.sonarPosition, this.draggingPosition);
     this.getMin(distance);
-    console.log('doDrag()', this.min);
-    // console.log('dragging', this.distance);
   }
 
-  @HostListener('mouseup', ['$event'])
-  mouseUp(event) {
+  getLastPosition(event) {
     this.lastPosition = {
-      x: event.clientX,
-      y: event.clientY,
-    };
+          x: event.clientX,
+          y: event.clientY,
+        };
     const distance = this.getDistance(this.sonarPosition, this.lastPosition);
     this.getMin(distance);
-    console.log('mouseUp()', this.min);
   }
 
   endDrag() {

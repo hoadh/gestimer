@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+
+declare var $;
 
 @Component({
   selector: 'app-home',
@@ -6,12 +9,10 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  mins: number[] = [];
   min = 0;
   isDragging = false;
-  originPosition = {
-    x: 0,
-    y: 0
-  };
+
   sonarPosition = {
     x: 0,
     y: 0
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
     y: 0
   };
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -40,10 +41,8 @@ export class HomeComponent implements OnInit {
   }
 
   startDrag(event) {
-    this.originPosition = {
-      x: event.clientX,
-      y: event.clientY,
-    };
+    this.min = 0;
+
     this.sonarPosition = {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2 - 45
@@ -63,23 +62,19 @@ export class HomeComponent implements OnInit {
     };
     const distance = this.getDistance(this.sonarPosition, this.draggingPosition);
     this.getMin(distance);
-  }
-
-  getLastPosition(event) {
-    this.lastPosition = {
-          x: event.clientX,
-          y: event.clientY,
-        };
-    const distance = this.getDistance(this.sonarPosition, this.lastPosition);
-    this.getMin(distance);
+    this.addMins(this.min);
   }
 
   endDrag() {
-    const distance = this.getDistance(this.sonarPosition, this.lastPosition);
-    this.getMin(distance);
+    if (this.mins.length >= 2) {
+      this.min = this.mins[this.mins.length - 2];
+    } else {
+      this.min = 0;
+    }
     console.log('endDrag()', this.min);
     this.showCursor();
     this.isDragging = false;
+    $('#timingModal').modal();
   }
 
   getDistance(startPoint, endPoint): number {
@@ -89,6 +84,18 @@ export class HomeComponent implements OnInit {
 
   getMin(distance: number) {
     this.min = Math.round(distance / 10);
+  }
+
+  addMins(min: number) {
+    this.mins.push(min);
+    while (this.mins.length > 10) {
+      this.mins.shift();
+    }
+  }
+
+  next() {
+    const url = '/timer/' + (this.min * 60);
+    this.router.navigate([url]);
   }
 
 }

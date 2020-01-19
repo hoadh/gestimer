@@ -14,7 +14,7 @@
   <line *ngIf="isDragging" class="line" [attr.x1]="sonarPosition.x" [attr.y1]="sonarPosition.y" [attr.x2]="draggingPosition.x" [attr.y2]="draggingPosition.y"></line>
   <circle *ngIf="isDragging" [attr.cx]="draggingPosition.x" [attr.cy]="draggingPosition.y" r="20" fill="HSL(45,100%,50%)" />
 </svg>
-<span *ngIf="isDragging" class="minutes">{{min}}</span>
+<span *ngIf="isDragging" class="minutes">{{min * 60 | timeformat}}</span>
 
 <!-- Modal -->
 <div class="modal fade" id="timingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -27,7 +27,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <input id="secondInput" type="text" class="form-control form-control-lg no-border font-size-30 text-center" [value]="min">
+        <input id="secondInput" type="text" class="form-control form-control-lg no-border font-size-30 text-center" [value]="min * 60 | timeformat" disabled>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

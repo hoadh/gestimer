@@ -53,9 +53,27 @@ export class HomeComponent implements OnInit {
     };
     this.isDragging = true;
 
-    const img = new Image();
-    img.src = '/assets/yellow.png';
-    event.dataTransfer.setDragImage(img, -5, -5);
+    if (event.dataTransfer) { // in case drag (on desktop browser)
+      const img = new Image();
+      img.src = '/assets/yellow.png';
+      event.dataTransfer.setDragImage(img, -5, -5);
+    }
+  }
+
+  onPan(evt) {
+    this.sonarPosition = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2 - 45
+    };
+    this.isDragging = true;
+    this.draggingPosition = {
+      x: evt.center.x,
+      y: evt.center.y
+    };
+    const distance = this.getDistance(this.sonarPosition, this.draggingPosition);
+    this.getMin(distance);
+    this.addMins(this.min);
+    console.log(evt.center);
   }
 
   dragLeave() {

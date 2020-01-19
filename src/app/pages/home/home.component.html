@@ -1,6 +1,8 @@
 <div class="sonar-wrapper">
   <div class="sonar-emitter" draggable="true"
        (dragstart)="startDrag($event)"
+       (pan)="onPan($event)"
+       (panend)="endDrag()"
        (drag)="doDrag($event)"
        (dragexit)="test('dragexit')"
        (dragleave)="dragLeave()"

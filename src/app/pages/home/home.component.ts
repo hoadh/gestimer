@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
 
 declare var $;
 
@@ -28,7 +29,9 @@ export class HomeComponent implements OnInit {
   };
   isDragLeave = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private titleService: Title) {
+    this.titleService.setTitle('Set Your Time!');
+  }
 
   ngOnInit() {
   }

@@ -74,15 +74,13 @@ export class HomeComponent implements OnInit {
   }
 
   endDrag() {
-    if (this.isDragLeave) {
-      if (this.mins.length >= 2) {
-        this.min = this.mins[this.mins.length - 2];
-      } else {
-        this.min = 0;
-      }
-      this.showModal();
-      this.isDragLeave = false;
+    if (this.mins.length >= 2) {
+      this.min = this.mins[this.mins.length - 2];
+    } else {
+      this.min = 0;
     }
+    this.showModal();
+    this.isDragLeave = false;
     this.isDragging = false;
     this.showCursor();
   }

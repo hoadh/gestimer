@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {TimeformatPipe} from '../../pipes/timeformat.pipe';
@@ -13,6 +13,7 @@ export class TimerComponent implements OnInit {
   seconds: number;
   interval: any;
   timeOff = false;
+  @ViewChild('audioOption', null) audioPlayerRef: ElementRef;
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private titleService: Title,
@@ -37,6 +38,7 @@ export class TimerComponent implements OnInit {
         this.updateTitle();
       } else {
         this.timeOff = true;
+        this.playAudio();
         this.stop();
       }
     }, 1000);
@@ -52,5 +54,9 @@ export class TimerComponent implements OnInit {
 
   back() {
     this.router.navigate(['/']);
+  }
+
+  playAudio() {
+    this.audioPlayerRef.nativeElement.play();
   }
 }

@@ -25,8 +25,13 @@ export class TimerComponent implements OnInit {
     this.interval = setInterval( () => {
       if (this.seconds > 0) {
         this.seconds--;
+      } else {
+        this.stop();
       }
     }, 1000);
   }
 
+  stop() {
+    clearInterval(this.interval);
+  }
 }

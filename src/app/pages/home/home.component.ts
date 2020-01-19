@@ -77,11 +77,11 @@ export class HomeComponent implements OnInit {
       } else {
         this.min = 0;
       }
-      this.showCursor();
-      this.isDragging = false;
       this.showModal();
       this.isDragLeave = false;
     }
+    this.isDragging = false;
+    this.showCursor();
   }
 
   showModal() {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-timer',
@@ -9,7 +9,9 @@ import {ActivatedRoute} from '@angular/router';
 export class TimerComponent implements OnInit {
   seconds: number;
   interval: any;
-  constructor(private activatedRoute: ActivatedRoute) { }
+  timeOff = false;
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe( params => {
@@ -24,8 +26,10 @@ export class TimerComponent implements OnInit {
   start() {
     this.interval = setInterval( () => {
       if (this.seconds > 0) {
+        this.timeOff = false;
         this.seconds--;
       } else {
+        this.timeOff = true;
         this.stop();
       }
     }, 1000);
@@ -33,5 +37,9 @@ export class TimerComponent implements OnInit {
 
   stop() {
     clearInterval(this.interval);
+  }
+
+  back() {
+    this.router.navigate(['/']);
   }
 }

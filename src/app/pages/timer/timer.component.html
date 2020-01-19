@@ -2,7 +2,7 @@
   <div class="row justify-content-center align-self-center w-100">
     <div class="col-12 text-center">
       <h1 *ngIf="!timeOff" class="display-4">{{seconds | timeformat}}</h1>
-      <button *ngIf="timeOff" type="button" class="btn btn-outline-dark" (click)="back()">Back to home</button>
+      <button *ngIf="timeOff" type="button" class="btn btn-outline-dark btn-lg" (click)="back()">Back to home</button>
     </div>
   </div>
 </div>

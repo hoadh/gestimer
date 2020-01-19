@@ -2,6 +2,10 @@
   <div class="sonar-emitter" draggable="true"
        (dragstart)="startDrag($event)"
        (drag)="doDrag($event)"
+       (dragexit)="test('dragexit')"
+       (dragleave)="dragLeave()"
+       (dragenter)="test('dragenter')"
+       (dragover)="test('dragover')"
        (dragend)="endDrag()">
     <div *ngIf="!isDragging" class="sonar-wave"></div>
   </div>
@@ -23,7 +27,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" class="form-control form-control-lg" [value]="min">
+        <input id="secondInput" type="text" class="form-control form-control-lg no-border font-size-30 text-center" [value]="min">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

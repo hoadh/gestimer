@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
     x: 0,
     y: 0
   };
+  isDragLeave = false;
 
   constructor(private router: Router) { }
 
@@ -54,6 +55,10 @@ export class HomeComponent implements OnInit {
     event.dataTransfer.setDragImage(img, -5, -5);
   }
 
+  dragLeave() {
+    this.isDragLeave = true;
+  }
+
   doDrag(event) {
     this.hideCursor();
     this.draggingPosition = {
@@ -66,15 +71,25 @@ export class HomeComponent implements OnInit {
   }
 
   endDrag() {
-    if (this.mins.length >= 2) {
-      this.min = this.mins[this.mins.length - 2];
-    } else {
-      this.min = 0;
+    if (this.isDragLeave) {
+      if (this.mins.length >= 2) {
+        this.min = this.mins[this.mins.length - 2];
+      } else {
+        this.min = 0;
+      }
+      this.showCursor();
+      this.isDragging = false;
+      this.showModal();
+      this.isDragLeave = false;
     }
-    console.log('endDrag()', this.min);
-    this.showCursor();
-    this.isDragging = false;
+  }
+
+  showModal() {
     $('#timingModal').modal();
+    // focus on input
+    $('#timingModal').on('shown.bs.modal', () => {
+      $('#secondInput').focus();
+    });
   }
 
   getDistance(startPoint, endPoint): number {
@@ -98,4 +113,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate([url]);
   }
 
+  test(msg: string) {
+    console.log(msg);
+  }
 }
